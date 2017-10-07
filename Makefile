@@ -20,6 +20,12 @@ define graph
 	terraform graph -draw-cycles -type plan $(2) | dot -Tpng > $(1).png;
 endef
 
+define destroy
+	terraform init -backend=true -backend-config='$(2)/backend.config' $(2)
+	terraform workspace select $(1) $(2) || (terraform workspace new $(1) $(2))
+	terraform destroy -var 'environment=$1' $(2);
+endef
+
 define plan
 	terraform init -backend=true -backend-config='$(2)/backend.config' $(2)
 	terraform workspace select $(1) $(2) || (terraform workspace new $(1) $(2))
@@ -63,3 +69,15 @@ reporting-plan:
 
 reporting-graph:
 	$(call graph,reporting,reporting)
+
+elk-create:
+	$(call create,elk,elk)
+
+elk-plan:
+	$(call plan,elk,elk)
+
+elk-graph:
+	$(call graph,elk,elk)
+
+elk-destroy:
+	$(call destroy,elk,elk)

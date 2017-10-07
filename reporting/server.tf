@@ -11,7 +11,7 @@ data "template_file" "reporting_config" {
 }
 
 resource "aws_instance" "reporting_server" {
-  count = 2
+  count = 1
   ami = "${var.ami}"
   availability_zone = "${var.region}a"
   instance_type = "${var.instance_type}"
