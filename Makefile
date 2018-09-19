@@ -46,6 +46,13 @@ define destroy
 	terraform destroy -var 'environment=$(1)' $(2);
 endef
 
+port:= $(if $(port),$(port),8021)
+server:= $(if $(server),$(server),http://localhost)
+server_url:=$(server):$(port)
+
+auth:
+	$(if $(poolId),$(eval token:=$(shell node user-management/token.js $(poolId) $(clientId) $(username) $(password))))
+
 unencrypt:
 	@openssl aes-256-cbc -a -md md5 -in server/key/openchs-infra.pem.enc -d -out server/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
 
@@ -136,16 +143,31 @@ delete-bintray-version:
 	done
 
 # AWS Environment variables are set which will authenticate you
-create-users:
+create-cognito-users:
 	cd user-management && python create_users.py $(pool)
+
+create-openchs-users:
+	node user-management/mapUsersToServerContract.js > user-management/openchs-users.json
+	curl -X POST $(server_url)/users -d @user-management/openchs-users.json -H "Content-Type: application/json" -H "AUTH-TOKEN: $(token)"
+
+create-staging-users:
+	-make create-cognito-users pool=ap-south-1_tuRfLFpm1
+	make auth create-openchs-users server=https://staging.openchs.org port=443 poolId=ap-south-1_tuRfLFpm1 clientId=93kp4dj29cfgnoerdg33iev0v server=https://staging.openchs.org port=443 username=admin password=$(STAGING_ADMIN_USER_PASSWORD)
+
+# MIGRATION COGNITO USERS
 migrate-users:
 	aws cognito-idp list-users --user-pool-id $(pool) > cognito-users.json
 	node user-management/mapUsers.js > cognito-users-mapped.json
 	curl -X POST http://localhost:8021/users -d @cognito-users-mapped.json -H "Content-Type: application/json" -H "AUTH-TOKEN: $(token)"
-delete-user-attributes:
-	aws cognito-idp admin-delete-user-attributes --user-pool-id $(pool) --username test --user-attribute-names "custom:organisationId" "custom:isAdmin" "custom:organisationName" "custom:isOrganisationAdmin" "custom:isUser" "custom:catchmentId"
+
 add-user-attribute:
 #	aws cognito-idp add-custom-attributes --user-pool-id $(pool) --custom-attributes Name=userUUID,AttributeDataType=String,Mutable=true
 #	aws cognito-idp admin-update-user-attributes --username test --user-pool-id $(pool) --user-attributes Name=custom:userUUID,Value=e011d56f-19dd-41ff-9eeb-521b37affa74
 	aws cognito-idp admin-update-user-attributes --username admin --user-pool-id $(pool) --user-attributes Name=custom:userUUID,Value=5fed2907-df3a-4867-aef5-c87f4c78a31a
 	aws cognito-idp admin-update-user-attributes --username ck-demo --user-pool-id $(pool) --user-attributes Name=custom:userUUID,Value=d36cb738-c9a7-462e-9f12-1021ed4d1065
+
+delete-user-attributes:
+	aws cognito-idp admin-delete-user-attributes --user-pool-id $(pool) --username test --user-attribute-names "custom:organisationId" "custom:isAdmin" "custom:organisationName" "custom:isOrganisationAdmin" "custom:isUser" "custom:catchmentId"
+
+deps:
+	npm i

@@ -8,3 +8,6 @@ terraform.tfstate.backup
 user-management/users.json
 server/*override.tf
 cognito-users-mapped.json
+node_modules
+user-management/cognito-users.json
+user-management/openchs-users.json

@@ -1,11 +1,5 @@
+//Needed when you want to migrate users retrieved from Cognito and you want to add them to the server
 let cognitoUserResponse = require("../cognito-users.json");
-
-function newUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-        const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
 
 function getCustomAttributeValue(cognitoUser, attributeName) {
     let attribute = cognitoUser["Attributes"].find(function (attribute) {
