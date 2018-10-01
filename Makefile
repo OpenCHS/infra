@@ -13,7 +13,7 @@ define create
     cp -f ./server-override/$(1)_override.tf ./server || :
     terraform init -backend=true -backend-config='$(2)/backend.config' $(2)
 	terraform workspace select $(1) $(2) || (terraform workspace new $(1) $(2))
-	terraform apply -auto-approve -var 'environment=$(1)' $(2);
+	terraform apply -auto-approve -var 'environment=$(1)' -var-file='vars/$(1).tfvars' $(2);
 endef
 
 define graph
@@ -54,7 +54,9 @@ auth:
 	$(if $(poolId),$(eval token:=$(shell node user-management/token.js $(poolId) $(clientId) $(username) $(password))))
 
 unencrypt:
-	@openssl aes-256-cbc -a -md md5 -in server/key/openchs-infra.pem.enc -d -out server/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in server/key/openchs-infra.pem.enc -d -out server/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in vars/prod.tfvars.enc -d -out vars/prod.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in vars/staging.tfvars.enc -d -out vars/staging.tfvars -k ${ENCRYPTION_KEY_AWS}
 
 install:
 	rm -rf terraform terraform.zip

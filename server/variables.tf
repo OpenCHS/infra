@@ -109,3 +109,9 @@ variable "fromDB" {
   description = "From Database"
   default     = "staging"
 }
+
+variable "bugsnag_api_key" {
+  type        = "string"
+  description = "From Database"
+  default = ""
+}

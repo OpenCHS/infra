@@ -10,6 +10,7 @@ data "template_file" "config" {
     database_password = "${aws_db_instance.openchs.password}"
     client_id = "${file("server/version/client_id")}"
     user_pool_id = "${aws_cognito_user_pool.user_pool.id}"
+    bugsnag_api_key = "${var.bugsnag_api_key}"
   }
 
   depends_on = [
