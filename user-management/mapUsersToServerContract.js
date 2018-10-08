@@ -3,7 +3,7 @@ let users = require("./users");
 
 function mapToServerContract(users) {
     return users.map(function (user) {
-        user["password"] = user["email"] = user["org_name"] = user["phone_number"] = undefined;
+        user["password"] = undefined;
         return user;
     });
 }

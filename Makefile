@@ -149,14 +149,17 @@ create-cognito-users:
 	cd user-management && python create_users.py $(pool)
 
 create-openchs-users:
-	node user-management/mapUsersToServerContract.js > user-management/openchs-users.json
-	curl -X POST $(server_url)/users -d @user-management/openchs-users.json -H "Content-Type: application/json" -H "AUTH-TOKEN: $(token)"
+	node user-management/mapUsersToServerContract.js > temp/openchs-users.json
+	curl -X POST $(server_url)/users -d @temp/openchs-users.json -H "Content-Type: application/json" -H "AUTH-TOKEN: $(token)"
 
 create-staging-users:
 	-make create-cognito-users pool=ap-south-1_tuRfLFpm1
 	make auth create-openchs-users server=https://staging.openchs.org port=443 poolId=ap-south-1_tuRfLFpm1 clientId=93kp4dj29cfgnoerdg33iev0v server=https://staging.openchs.org port=443 username=admin password=$(STAGING_ADMIN_USER_PASSWORD)
 
 # MIGRATION COGNITO USERS
+get-staging-users:
+	aws cognito-idp list-users --user-pool-id $(STAGING_USER_POOL_ID) > cognito-users.json
+
 migrate-users:
 	aws cognito-idp list-users --user-pool-id $(pool) > cognito-users.json
 	node user-management/mapUsers.js > cognito-users-mapped.json

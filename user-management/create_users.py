@@ -12,9 +12,6 @@ def json_input(user):
         'UserAttributes': [
             {'Name': 'email', 'Value': user["email"]},
             {'Name': 'phone_number', 'Value': user["phoneNumber"]},
-            {'Name': 'custom:organisationName', 'Value': user["orgName"]},
-            {'Name': 'custom:isAdmin', 'Value': "true" if user["admin"] else "false"},
-            {'Name': 'custom:isOrganisationAdmin', 'Value': "true" if user["orgAdmin"] else "false"},
             {'Name': 'custom:userUUID', 'Value': user["uuid"]}
         ],
         'ForceAliasCreation': True,
@@ -24,8 +21,12 @@ def json_input(user):
 
 def create_user(user):
     user_json = json_input(user)
-    print subprocess.check_output(
-        ["aws", "cognito-idp", "admin-create-user", "--cli-input-json", json.dumps(user_json)])
+    print user_json
+    try:
+        print subprocess.check_output(
+            ["aws", "cognito-idp", "admin-create-user", "--cli-input-json", json.dumps(user_json)])
+    except Exception as e:
+        print e, '\n'
 
 users = json.load(open('./users.json'))
 map(create_user, users)
