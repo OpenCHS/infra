@@ -16,6 +16,13 @@ resource "aws_elb" "reportingloadbalancer" {
     ssl_certificate_id = "${data.aws_acm_certificate.ssl_certificate.arn}"
   }
 
+  listener {
+    instance_port = "3000"
+    instance_protocol = "http"
+    lb_port = 80
+    lb_protocol = "http"
+  }
+
   health_check {
     healthy_threshold = 2
     unhealthy_threshold = 2
