@@ -11,6 +11,7 @@ data "template_file" "config" {
     client_id = "${file("server/version/client_id")}"
     user_pool_id = "${aws_cognito_user_pool.user_pool.id}"
     bugsnag_api_key = "${var.bugsnag_api_key}"
+    environment = "${var.environment}"
   }
 
   depends_on = [

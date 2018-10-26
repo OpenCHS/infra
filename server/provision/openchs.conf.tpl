@@ -9,3 +9,4 @@ export OPENCHS_USER_POOL=${user_pool_id}
 export OPENCHS_CLIENT_ID=${client_id}
 export OPENCHS_MODE=live
 export OPENCHS_SERVER_BUGSNAG_API_KEY=${bugsnag_api_key}
+export OPENCHS_BUGSNAG_RELEASE_STAGE=${environment}
