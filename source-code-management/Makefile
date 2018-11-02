@@ -9,7 +9,7 @@ try:
 define _git_multiple
 	@for repo in $2 ; do \
 		echo $$repo ; \
-		git --git-dir=../../$$repo/.git --work-tree=/Users/vsingh/Projects/samanvay/openchs/$$repo $1 ; \
+		git --git-dir=../../$$repo/.git --work-tree=../../$$repo $1 ; \
 	done
 endef
 
@@ -33,5 +33,5 @@ openchs_branch_product:#branch=
 openchs_commit_stat:
 	@for repo in $(openchs_repos) ; do \
 		echo $$repo ; \
-		git --git-dir=/Users/vsingh/Projects/samanvay/openchs/$$repo/.git --work-tree=/Users/vsingh/Projects/samanvay/openchs/$$repo shortlog -s master@{$(from)}...master@{$(to)} ; \
+		git --git-dir=../../$$repo/.git --work-tree=../../$$repo shortlog -s master@{$(from)}...master@{$(to)} ; \
 	done
