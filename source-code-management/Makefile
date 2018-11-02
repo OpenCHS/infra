@@ -3,7 +3,7 @@ openchs_implementation_repos = lbp-arogyadoot ashwini calcutta-kids tt-ncd-scree
 
 branch=
 command=
-product=$(filter yes,$(product))
+product:=$(filter yes,$(product))
 repos=$(if $(product),$(openchs_product_repos),$(openchs_implementation_repos))
 
 try:
