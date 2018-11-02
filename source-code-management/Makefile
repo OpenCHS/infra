@@ -11,6 +11,12 @@ try:
         echo $$repo ; \
 	done
 
+openchs_git_clone:
+	@for repo in $(openchs_product_repos) $(openchs_implementation_repos) ; do \
+		echo $$repo ; \
+		git clone git@github.com:OpenCHS/$$repo.git; \
+	done
+
 define _git_multiple
 	@for repo in $2 ; do \
 		echo $$repo ; \
