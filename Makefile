@@ -123,9 +123,6 @@ reporting-plan:
 reporting-graph:
 	$(call graph,reporting,reporting)
 
-reporting-destroy:
-	$(call graph,reporting,reporting)
-
 staging-create-from-prod: staging-destroy
 	$(call create_staging_from_prod,uat,staging,server)
 
