@@ -13,6 +13,8 @@ var authenticate = function (poolId, clientId, username, password) {
     var cognitoUser = new Cognito.CognitoUser({Username: username, Pool: userPool});
     cognitoUser.authenticateUser(authenticationDetails, {
         onSuccess: function (result) {
+            var accessToken = result.getAccessToken().getJwtToken();
+            // console.warn(accessToken);
             console.log(result.getIdToken().getJwtToken());
         },
         onFailure: function (error) {
