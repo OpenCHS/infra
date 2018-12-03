@@ -3,6 +3,7 @@ import subprocess
 import json
 
 user_pool_id = sys.argv[1]
+profile_name = sys.argv[2] if len(sys.argv) > 2 else 'default'
 
 def json_input(user):
     return {
@@ -24,7 +25,7 @@ def create_user(user):
     print user_json
     try:
         print subprocess.check_output(
-            ["aws", "cognito-idp", "admin-create-user", "--cli-input-json", json.dumps(user_json)])
+            ["aws", "--profile", profile_name, "cognito-idp", "admin-create-user", "--cli-input-json", json.dumps(user_json)])
     except Exception as e:
         print e, '\n'
 
