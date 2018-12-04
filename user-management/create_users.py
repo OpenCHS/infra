@@ -7,13 +7,17 @@ profile_name = sys.argv[2] if len(sys.argv) > 2 else 'default'
 
 def json_input(user):
     return {
-        'Username': user["name"],
+        'Username': user["username"],
         'UserPoolId': user_pool_id,
         'ValidationData': [],
         'UserAttributes': [
             {'Name': 'email', 'Value': user["email"]},
-            {'Name': 'phone_number', 'Value': user["phoneNumber"]},
-            {'Name': 'custom:userUUID', 'Value': user["uuid"]}
+            {'Name': 'phone_number', 'Value': user["phone_number"]},
+            {'Name': 'custom:userUUID', 'Value': user["uuid"]},
+            {'Name': 'custom:catchmentId', 'Value': user["catchment_id"]},
+            {'Name': 'custom:organisationName', 'Value': user["org_name"]},
+            {'Name': 'custom:isAdmin', 'Value': user["is_admin"]},
+            {'Name': 'custom:isOrganisationAdmin', 'Value': user["is_org_admin"]}
         ],
         'ForceAliasCreation': True,
         'TemporaryPassword': user["password"],
