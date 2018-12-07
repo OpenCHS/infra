@@ -1,0 +1,15 @@
+[
+  {
+    "uuid": "",
+    "name": "",
+    "password": "",
+    "email": "@samanvayfoundation.org",
+    "phoneNumber": "+91",
+    "organisationUUID": "",
+    "catchmentUUID": "",
+    "COMMENT-operatingIndividualScope-enum": "ByFacility, ByCatchment, None",
+    "operatingIndividualScope": "",
+    "isAdmin": "",
+    "isOrgAdmin": ""
+  }
+]
