@@ -1,6 +1,6 @@
 export OPENCHS_SERVER=localhost
 export OPENCHS_SERVER_PORT=${server_port}
-export OPENCHS_SERVER_OPTS="-Dlogging.file=openchs.log -Dlogging.path=/var/log/openchs/ -Dlogging.file.max-size=1kb -Xmx250m -XX:ErrorFile=/var/log/openchs/jvm.log"
+export OPENCHS_SERVER_OPTS="-Dlogging.file=/var/log/openchs/chs.log -Dlogging.path=/var/log/openchs/ -Dlogging.file.max-size=5mb -Xmx250m -XX:ErrorFile=/var/log/openchs/jvm.log"
 export OPENCHS_DATABASE_HOST=${database_host}
 export OPENCHS_DATABASE_USER=${database_user}
 export OPENCHS_DATABASE_PASSWORD=${database_password}
