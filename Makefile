@@ -46,6 +46,7 @@ define destroy
 	terraform destroy -var 'environment=$(1)' $(2);
 endef
 
+poolId=
 port:= $(if $(port),$(port),8021)
 server:= $(if $(server),$(server),http://localhost)
 server_url:=$(server):$(port)
@@ -145,8 +146,14 @@ delete-bintray-version:
 	done
 
 # AWS Environment variables are set which will authenticate you
+# Multiple profiles need to be setup like the following,
+# if you want to access pools from different aws accounts
+# see sample profile setup. https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-profiles.html
+
+# default profile is 'default'
+awsprofile=
 create-cognito-users:
-	cd user-management && python create_users.py $(poolId)
+	cd user-management && python create_users.py $(poolId) $(awsprofile)
 
 create-openchs-users:
 	node user-management/mapUsersToServerContract.js > temp/openchs-users.json
