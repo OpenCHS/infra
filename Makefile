@@ -146,14 +146,14 @@ delete-bintray-version:
 
 # AWS Environment variables are set which will authenticate you
 create-cognito-users:
-	cd user-management && python create_users.py $(pool)
+	cd user-management && python create_users.py $(poolId)
 
 create-openchs-users:
 	node user-management/mapUsersToServerContract.js > temp/openchs-users.json
 	curl -X POST $(server_url)/users -d @temp/openchs-users.json -H "Content-Type: application/json" -H "AUTH-TOKEN: $(token)"
 
 create-staging-users:
-	-make create-cognito-users pool=ap-south-1_tuRfLFpm1
+	-make create-cognito-users poolId=ap-south-1_tuRfLFpm1
 	make auth create-openchs-users server=https://staging.openchs.org port=443 poolId=ap-south-1_tuRfLFpm1 clientId=93kp4dj29cfgnoerdg33iev0v server=https://staging.openchs.org port=443 username=admin password=$(STAGING_ADMIN_USER_PASSWORD)
 
 # MIGRATION COGNITO USERS
@@ -161,18 +161,18 @@ get-staging-users:
 	aws cognito-idp list-users --user-pool-id $(STAGING_USER_POOL_ID) > cognito-users.json
 
 migrate-users:
-	aws cognito-idp list-users --user-pool-id $(pool) > cognito-users.json
+	aws cognito-idp list-users --user-pool-id $(poolId) > cognito-users.json
 	node user-management/mapUsers.js > cognito-users-mapped.json
 	curl -X POST http://localhost:8021/users -d @cognito-users-mapped.json -H "Content-Type: application/json" -H "AUTH-TOKEN: $(token)"
 
 add-user-attribute:
-#	aws cognito-idp add-custom-attributes --user-pool-id $(pool) --custom-attributes Name=userUUID,AttributeDataType=String,Mutable=true
-#	aws cognito-idp admin-update-user-attributes --username test --user-pool-id $(pool) --user-attributes Name=custom:userUUID,Value=e011d56f-19dd-41ff-9eeb-521b37affa74
-	aws cognito-idp admin-update-user-attributes --username admin --user-pool-id $(pool) --user-attributes Name=custom:userUUID,Value=5fed2907-df3a-4867-aef5-c87f4c78a31a
-	aws cognito-idp admin-update-user-attributes --username ck-demo --user-pool-id $(pool) --user-attributes Name=custom:userUUID,Value=d36cb738-c9a7-462e-9f12-1021ed4d1065
+#	aws cognito-idp add-custom-attributes --user-pool-id $(poolId) --custom-attributes Name=userUUID,AttributeDataType=String,Mutable=true
+#	aws cognito-idp admin-update-user-attributes --username test --user-pool-id $(poolId) --user-attributes Name=custom:userUUID,Value=e011d56f-19dd-41ff-9eeb-521b37affa74
+	aws cognito-idp admin-update-user-attributes --username admin --user-pool-id $(poolId) --user-attributes Name=custom:userUUID,Value=5fed2907-df3a-4867-aef5-c87f4c78a31a
+	aws cognito-idp admin-update-user-attributes --username ck-demo --user-pool-id $(poolId) --user-attributes Name=custom:userUUID,Value=d36cb738-c9a7-462e-9f12-1021ed4d1065
 
 delete-user-attributes:
-	aws cognito-idp admin-delete-user-attributes --user-pool-id $(pool) --username test --user-attribute-names "custom:organisationId" "custom:isAdmin" "custom:organisationName" "custom:isOrganisationAdmin" "custom:isUser" "custom:catchmentId"
+	aws cognito-idp admin-delete-user-attributes --user-pool-id $(poolId) --username test --user-attribute-names "custom:organisationId" "custom:isAdmin" "custom:organisationName" "custom:isOrganisationAdmin" "custom:isUser" "custom:catchmentId"
 
 deps:
 	npm i
