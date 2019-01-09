@@ -7,7 +7,7 @@ product:=$(filter yes,$(product))
 repos=$(if $(product),$(openchs_product_repos),$(openchs_implementation_repos))
 
 try:
-	@for repo in $(openchs_repos) ; do \
+	@for repo in $(repos) ; do \
         echo $$repo ; \
 	done
 
