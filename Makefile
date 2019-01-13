@@ -185,4 +185,6 @@ delete-user-attributes:
 deps:
 	npm i
 
-
+#	One time: npm install -g cognito-backup
+backup-prod-cognito:
+	cognito-backup backup-users $(OPENCHS_PROD_USER_POOL_ID) --region ap-south-1 --file prod-user-pool.json
