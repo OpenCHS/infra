@@ -12,6 +12,9 @@ data "template_file" "config" {
     user_pool_id = "${aws_cognito_user_pool.user_pool.id}"
     bugsnag_api_key = "${var.bugsnag_api_key}"
     environment = "${var.environment}"
+    server_iam_user = "${aws_iam_user.server_app_iam_user.name}"
+    iam_access_key = "${aws_iam_access_key.server_app_iam_user_key.id}"
+    iam_secret_access_key = "${aws_iam_access_key.server_app_iam_user_key.secret}"
   }
 
   depends_on = [

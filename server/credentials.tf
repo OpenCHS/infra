@@ -29,3 +29,27 @@ data "aws_acm_certificate" "ssl_certificate" {
   domain   = "*.openchs.org"
   statuses = ["ISSUED"]
 }
+
+resource "aws_iam_user" "server_app_iam_user" {
+  name = "${var.environment}_app_iam_user"
+}
+
+resource "aws_iam_user_policy" "server_app_iam_user_policy" {
+  user = "${aws_iam_user.server_app_iam_user.name}"
+  policy = <<EOF
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource": "arn:aws:s3:::${aws_s3_bucket.server_bucket.bucket}"
+        }
+    ]
+}
+EOF
+}
+
+resource "aws_iam_access_key" "server_app_iam_user_key" {
+  user = "${aws_iam_user.server_app_iam_user.name}"
+}
