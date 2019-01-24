@@ -10,6 +10,7 @@ export OPENCHS_CLIENT_ID=${client_id}
 export OPENCHS_MODE=live
 export OPENCHS_SERVER_BUGSNAG_API_KEY=${bugsnag_api_key}
 export OPENCHS_BUGSNAG_RELEASE_STAGE=${environment}
+export OPENCHS_BUCKET_NAME=${bucket_name}
 export OPENCHS_IAM_USER=${server_iam_user}
 export OPENCHS_IAM_USER_ACCESS_KEY=${iam_access_key}
 export OPENCHS_IAM_USER_SECRET_ACCESS_KEY=${iam_secret_access_key}

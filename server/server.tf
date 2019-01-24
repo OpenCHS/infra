@@ -15,6 +15,7 @@ data "template_file" "config" {
     server_iam_user = "${aws_iam_user.server_app_iam_user.name}"
     iam_access_key = "${aws_iam_access_key.server_app_iam_user_key.id}"
     iam_secret_access_key = "${aws_iam_access_key.server_app_iam_user_key.secret}"
+    bucket_name="${var.environment}-user-media"
   }
 
   depends_on = [
