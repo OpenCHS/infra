@@ -10,6 +10,10 @@
     "COMMENT-operatingIndividualScope-enum": "ByFacility, ByCatchment, None",
     "operatingIndividualScope": "",
     "isAdmin": "",
-    "isOrgAdmin": ""
+    "isOrgAdmin": "",
+    "/******verified fields are optional": "****boolean******/",
+    "emailVerified": true,
+    "phoneNumberVerified": false,
+    "/*******************": "*********************/"
   }
 ]
