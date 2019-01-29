@@ -2,7 +2,6 @@
   {
     "uuid": "",
     "name": "",
-    "password": "",
     "email": "@samanvayfoundation.org",
     "phoneNumber": "+91",
     "organisationUUID": "",
@@ -10,10 +9,6 @@
     "COMMENT-operatingIndividualScope-enum": "ByFacility, ByCatchment, None",
     "operatingIndividualScope": "",
     "isAdmin": "",
-    "isOrgAdmin": "",
-    "/******verified fields are optional": "****boolean******/",
-    "emailVerified": true,
-    "phoneNumberVerified": false,
-    "/*******************": "*********************/"
+    "isOrgAdmin": ""
   }
 ]
