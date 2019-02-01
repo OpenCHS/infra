@@ -1,10 +1,10 @@
 .PHONY: install
 UNAME := $(shell uname)
 ifeq ($(UNAME),Linux)
-	TERRAFORM_URL="https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_linux_amd64.zip"
+	TERRAFORM_URL="https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_linux_amd64.zip"
 endif
 ifeq ($(UNAME),Darwin)
-	TERRAFORM_URL="https://releases.hashicorp.com/terraform/0.11.10/terraform_0.11.10_darwin_amd64.zip"
+	TERRAFORM_URL="https://releases.hashicorp.com/terraform/0.11.11/terraform_0.11.11_darwin_amd64.zip"
 endif
 TERRAFORM_LOCATION:=/usr/local/bin/terraform
 
