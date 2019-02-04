@@ -12,9 +12,7 @@ def json_input(user):
         'ValidationData': [],
         'UserAttributes': [
             {'Name': 'email', 'Value': user["email"]},
-            {'Name': 'email_verified', 'Value': user["emailVerified"]},
             {'Name': 'phone_number', 'Value': user["phoneNumber"]},
-            {'Name': 'phone_number_verified', 'Value': user["phoneNumberVerified"]},
             {'Name': 'custom:userUUID', 'Value': user["uuid"]}
         ],
         'ForceAliasCreation': True,
