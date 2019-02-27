@@ -161,8 +161,7 @@ create-openchs-users:
 	curl -X POST $(server_url)/users -d @temp/openchs-users.json -H "Content-Type: application/json" -H "AUTH-TOKEN: $(token)"
 
 create-staging-users:
-	-make create-cognito-users poolId=ap-south-1_tuRfLFpm1
-	make auth create-openchs-users server=https://staging.openchs.org port=443 poolId=ap-south-1_tuRfLFpm1 clientId=93kp4dj29cfgnoerdg33iev0v server=https://staging.openchs.org port=443 username=admin password=$(STAGING_ADMIN_USER_PASSWORD)
+	make auth create-openchs-users server=https://staging.openchs.org port=443 poolId=$(poolId) clientId=$(clientId) username=$(username) password=$(password)
 
 # MIGRATION COGNITO USERS
 get-staging-users:
