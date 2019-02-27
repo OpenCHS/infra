@@ -163,6 +163,9 @@ create-openchs-users:
 create-staging-users:
 	make auth create-openchs-users server=https://staging.openchs.org port=443 poolId=$(poolId) clientId=$(clientId) username=$(username) password=$(password)
 
+create-uat-users:
+	make auth create-openchs-users server=https://uat.openchs.org port=443 poolId=$(poolId) clientId=$(clientId) username=$(username) password=$(password)
+
 create-prod-users:
 	make auth create-openchs-users server=https://server.openchs.org port=443 poolId=$(poolId) clientId=$(clientId) username=$(username) password=$(password)
 
