@@ -163,6 +163,9 @@ create-openchs-users:
 create-staging-users:
 	make auth create-openchs-users server=https://staging.openchs.org port=443 poolId=$(poolId) clientId=$(clientId) username=$(username) password=$(password)
 
+create-prod-users:
+	make auth create-openchs-users server=https://server.openchs.org port=443 poolId=$(poolId) clientId=$(clientId) username=$(username) password=$(password)
+
 # MIGRATION COGNITO USERS
 get-staging-users:
 	aws cognito-idp list-users --user-pool-id $(STAGING_USER_POOL_ID) > cognito-users.json
