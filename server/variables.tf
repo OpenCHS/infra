@@ -28,6 +28,7 @@ variable "db_final_snapshot" {
   default = {
     demo = false
     uat = true
+    prerelease = true
   }
 }
 
@@ -55,7 +56,8 @@ variable "url_map" {
     demo    = "demo"
     uat    = "uat"
     staging = "staging"
-    prod    = "server"
+    prod    = "server",
+    prerelease = "prerelease"
   }
 }
 

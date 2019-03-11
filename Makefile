@@ -27,7 +27,7 @@ define plan
     cp -f ./server-override/$(1)_override.tf ./server || :
 	terraform init -backend=true -backend-config='$(2)/backend.config' $(2)
 	terraform workspace select $(1) $(2) || (terraform workspace new $(1) $(2))
-	terraform plan -var 'environment=$(1)' $(2);
+	terraform plan -var 'environment=$(1)' -var-file='vars/$(1).tfvars' $(2);
 endef
 
 define create_staging_from_prod
@@ -37,6 +37,28 @@ define create_staging_from_prod
 	terraform workspace select $(2) $(3) || (terraform workspace new $(2) $(3))
 	terraform apply -auto-approve -var 'environment=$(2)' -var 'fromDB=$(1)' $(3);
 endef
+
+define create_prerelease_from_prod
+    rm -rf server/*_override.tf
+    cp -f ./server-override/from_$(2)_override.tf ./server || :
+    terraform init -backend=true -backend-config='$(3)/backend.config' $(3)
+	terraform workspace select $(2) $(3) || (terraform workspace new $(2) $(3))
+	terraform apply -auto-approve -var 'environment=$(2)' -var-file='vars/$(2).tfvars' -var 'fromDB=$(1)' $(3);
+endef
+
+define plan_prerelease_from_prod
+    rm -rf server/*_override.tf
+    cp -f ./server-override/from_$(2)_override.tf ./server || :
+    terraform init -backend=true -backend-config='$(3)/backend.config' $(3)
+	terraform workspace select $(2) $(3) || (terraform workspace new $(2) $(3))
+	terraform plan -var 'environment=$(2)' -var-file='vars/$(2).tfvars' -var 'fromDB=$(1)' $(3);
+endef
+
+plan-prerelease-from-prod:
+	$(call plan_prerelease_from_prod,prod,prerelease,server)
+
+create-prerelease-from-prod:
+	$(call create_prerelease_from_prod,prod,prerelease,server)
 
 define destroy
     rm -rf server/*_override.tf
@@ -59,12 +81,16 @@ unencrypt:
 	-@openssl aes-256-cbc -a -md md5 -in vars/prod.tfvars.enc -d -out vars/prod.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/staging.tfvars.enc -d -out vars/staging.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/reporting.tfvars.enc -d -out vars/reporting.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in vars/prerelease.tfvars.enc -d -out vars/prerelease.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in vars/uat.tfvars.enc -d -out vars/uat.tfvars -k ${ENCRYPTION_KEY_AWS}
 
 encrypt:
 	-@openssl aes-256-cbc -a -in server/key/openchs-infra.pem -out server/key/openchs-infra.pem.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/prod.tfvars -out vars/prod.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/staging.tfvars -out vars/staging.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/reporting.tfvars -out vars/reporting.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/uat.tfvars -out vars/uat.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/prerelease.tfvars -out vars/prerelease.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 
 install:
 	rm -rf terraform terraform.zip
@@ -82,6 +108,9 @@ staging-app-create:
 
 staging-destroy:
 	$(call destroy,staging,server)
+
+prerelease-destroy:
+	$(call destroy,prerelease,server)
 
 staging-plan:
 	$(call plan,staging,server)

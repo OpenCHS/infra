@@ -49,7 +49,7 @@ openchs_branch:
 	$(if $(product),$(call _branch_rule_config))
 
 openchs_commit_stat:
-	@for repo in $(openchs_repos) ; do \
+	@for repo in $(repos) ; do \
 		echo $$repo ; \
 		git --git-dir=../../$$repo/.git --work-tree=../../$$repo shortlog -s master@{$(from)}...master@{$(to)} ; \
 	done
