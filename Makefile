@@ -214,7 +214,7 @@ add-user-attribute:
 	aws cognito-idp admin-update-user-attributes --username ck-demo --user-pool-id $(poolId) --user-attributes Name=custom:userUUID,Value=d36cb738-c9a7-462e-9f12-1021ed4d1065
 
 delete-user-attributes:
-	aws cognito-idp admin-delete-user-attributes --user-pool-id $(poolId) --username test --user-attribute-names "custom:organisationId" "custom:isAdmin" "custom:organisationName" "custom:isOrganisationAdmin" "custom:isUser" "custom:catchmentId"
+	aws cognito-idp admin-delete-user-attributes --user-pool-id $(poolId) --username $(user) --user-attribute-names "custom:organisationId" "custom:isAdmin" "custom:organisationName" "custom:isOrganisationAdmin" "custom:isUser" "custom:catchmentId"
 
 deps:
 	npm i
