@@ -5,7 +5,7 @@ resource "aws_kms_key" "db_encryption_key" {
 
 resource "aws_db_instance" "openchs" {
   identifier = "proddb"
-  allocated_storage = 5
+  allocated_storage = 100
   allow_major_version_upgrade = true
   apply_immediately = false
   auto_minor_version_upgrade = true
@@ -18,7 +18,7 @@ resource "aws_db_instance" "openchs" {
   storage_type = "gp2"
   db_subnet_group_name = "${aws_db_subnet_group.db_subnet.name}"
   engine = "postgres"
-  engine_version = "9.6.6"
+  engine_version = "9.6.11"
   instance_class = "db.t2.small"
   name = "openchs"
   username = "openchs"
