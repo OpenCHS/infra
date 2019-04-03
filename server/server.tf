@@ -32,14 +32,6 @@ data "template_file" "update" {
   }
 }
 
-data "template_file" "web_app" {
-  template = "${file("server/webapp/provision/webapp.sh.tpl")}"
-
-  vars {
-    build_version = "${file("server/webapp/version/build_version")}"
-  }
-}
-
 resource "aws_instance" "server" {
   count = 1
   ami = "${var.ami}"
@@ -120,30 +112,6 @@ resource "null_resource" "update_instance" {
     inline = [
       "chmod +x /tmp/update.sh",
       "/tmp/update.sh"
-    ]
-
-    connection {
-      host = "${element(aws_instance.server.*.public_ip, count.index)}"
-      user = "${var.default_ami_user}"
-      private_key = "${file("server/key/${var.key_name}.pem")}"
-    }
-  }
-
-  //add webapp content to the server
-  provisioner "file" {
-    content = "${data.template_file.web_app.rendered}"
-    destination = "/tmp/webapp.sh"
-    connection {
-      host = "${element(aws_instance.server.*.public_ip, count.index)}"
-      user = "${var.default_ami_user}"
-      private_key = "${file("server/key/${var.key_name}.pem")}"
-    }
-  }
-
-  provisioner "remote-exec" {
-    inline = [
-      "chmod +x /tmp/webapp.sh",
-      "/tmp/webapp.sh"
     ]
 
     connection {

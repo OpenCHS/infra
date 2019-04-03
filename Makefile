@@ -106,6 +106,9 @@ staging-create:
 staging-app-create:
 	$(call create,app.staging,client)
 
+staging-webapp-create:
+	$(call create,webapp.staging,webapp)
+
 staging-destroy:
 	$(call destroy,staging,server)
 
@@ -117,6 +120,9 @@ staging-plan:
 
 staging-app-plan:
 	$(call plan,app.staging,client)
+
+staging-webapp-plan:
+	$(call plan,webapp.staging,webapp)
 
 production-plan:
 	$(call plan,prod,server)
