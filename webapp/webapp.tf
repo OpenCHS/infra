@@ -6,7 +6,7 @@ data "template_file" "web_app" {
 }
 
 
-resource "null_resource" "copy_conten" {
+resource "null_resource" "copy_content" {
 
   provisioner "file" {
     content = "${data.template_file.web_app.rendered}"
