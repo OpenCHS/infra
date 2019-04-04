@@ -137,7 +137,7 @@ resource "aws_route53_record" "server" {
 
 resource "aws_route53_record" "webapp" {
   zone_id = "${data.aws_route53_zone.openchs.zone_id}"
-  name = "${lookup(var.url_map, var.webapp, "temp")}.${data.aws_route53_zone.openchs.name}"
+  name = "${lookup(var.webapp, var.environment, "temp")}.${data.aws_route53_zone.openchs.name}"
   type = "A"
 
   alias {
