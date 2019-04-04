@@ -13,7 +13,7 @@ define create
     cp -f ./server-override/$(1)_override.tf ./server || :
     terraform init -backend=true -backend-config='$(2)/backend.config' $(2)
 	terraform workspace select $(1) $(2) || (terraform workspace new $(1) $(2))
-	terraform apply -auto-approve -var 'environment=$(1)' -var-file='vars/$(1).tfvars' $(2);
+	terraform apply -auto-approve -var 'environment=$(if $(3),$(3),$(1))' -var-file='vars/$(1).tfvars' $(2);
 endef
 
 define graph
@@ -27,7 +27,7 @@ define plan
     cp -f ./server-override/$(1)_override.tf ./server || :
 	terraform init -backend=true -backend-config='$(2)/backend.config' $(2)
 	terraform workspace select $(1) $(2) || (terraform workspace new $(1) $(2))
-	terraform plan -var 'environment=$(1)' -var-file='vars/$(1).tfvars' $(2);
+	terraform plan -var 'environment=$(if $(3),$(3),$(1))' -var-file='vars/$(1).tfvars' $(2);
 endef
 
 define create_staging_from_prod
@@ -65,7 +65,7 @@ define destroy
     cp -f ./server-override/$(1)_override.tf ./server || :
     terraform init -backend=true -backend-config='$(2)/backend.config' $(2)
 	terraform workspace select $(1) $(2) || (terraform workspace new $(1) $(2))
-	terraform destroy -var 'environment=$(1)' $(2);
+	terraform destroy -var 'environment=$(if $(3),$(3),$(1))' $(2);
 endef
 
 poolId=
@@ -107,13 +107,16 @@ staging-app-create:
 	$(call create,app.staging,client)
 
 staging-webapp-create:
-	$(call create,webapp.staging,webapp)
+	$(call create,webapp.staging,webapp,staging)
 
 staging-destroy:
 	$(call destroy,staging,server)
 
 prerelease-destroy:
 	$(call destroy,prerelease,server)
+
+staging-webapp-destroy:
+	$(call destroy,webapp.staging,webapp,staging)
 
 staging-plan:
 	$(call plan,staging,server)
@@ -122,7 +125,7 @@ staging-app-plan:
 	$(call plan,app.staging,client)
 
 staging-webapp-plan:
-	$(call plan,webapp.staging,webapp)
+	$(call plan,webapp.staging,webapp,staging)
 
 production-plan:
 	$(call plan,prod,server)

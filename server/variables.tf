@@ -61,6 +61,19 @@ variable "url_map" {
   }
 }
 
+variable "webapp" {
+  type        = "map"
+  description = "URL Map"
+
+  default = {
+    demo    = "app.demo"
+    uat    = "app.uat"
+    staging = "app.staging"
+    prod    = "app",
+    prerelease = "app.prerelease"
+  }
+}
+
 variable "ami" {
   type        = "string"
   description = "Amazon Linux hvm:ebs-ssd AMI Mumbai"
