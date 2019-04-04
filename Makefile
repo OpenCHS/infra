@@ -78,6 +78,7 @@ auth:
 
 unencrypt:
 	-@openssl aes-256-cbc -a -md md5 -in server/key/openchs-infra.pem.enc -d -out server/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in webapp/key/openchs-infra.pem.enc -d -out webapp/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/prod.tfvars.enc -d -out vars/prod.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/staging.tfvars.enc -d -out vars/staging.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/reporting.tfvars.enc -d -out vars/reporting.tfvars -k ${ENCRYPTION_KEY_AWS}
@@ -87,6 +88,7 @@ unencrypt:
 
 encrypt:
 	-@openssl aes-256-cbc -a -in server/key/openchs-infra.pem -out server/key/openchs-infra.pem.enc -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in webapp/key/openchs-infra.pem -out webapp/key/openchs-infra.pem.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/prod.tfvars -out vars/prod.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/staging.tfvars -out vars/staging.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/reporting.tfvars -out vars/reporting.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
