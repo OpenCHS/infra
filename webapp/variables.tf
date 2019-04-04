@@ -8,10 +8,6 @@ variable "key_name" {
   default     = "openchs-infra"
 }
 
-variable "circle_build_num" {
-  type = "string"
-}
-
 variable "environment" {
   type        = "string"
   description = "Environment Name"

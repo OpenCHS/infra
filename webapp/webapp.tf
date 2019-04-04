@@ -1,7 +1,7 @@
 data "template_file" "web_app" {
   template = "${file("webapp/provision/webapp.sh.tpl")}"
   vars {
-    build_version = "${var.circle_build_num}"
+    build_version = "${file("webapp/version/build_version")}"
   }
 }
 
