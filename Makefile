@@ -83,6 +83,7 @@ unencrypt:
 	-@openssl aes-256-cbc -a -md md5 -in vars/reporting.tfvars.enc -d -out vars/reporting.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/prerelease.tfvars.enc -d -out vars/prerelease.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/uat.tfvars.enc -d -out vars/uat.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in vars/webapp.staging.tfvars.enc -d -out vars/webapp.staging.tfvars -k ${ENCRYPTION_KEY_AWS}
 
 encrypt:
 	-@openssl aes-256-cbc -a -in server/key/openchs-infra.pem -out server/key/openchs-infra.pem.enc -k ${ENCRYPTION_KEY_AWS}
@@ -91,6 +92,7 @@ encrypt:
 	-@openssl aes-256-cbc -a -in vars/reporting.tfvars -out vars/reporting.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/uat.tfvars -out vars/uat.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/prerelease.tfvars -out vars/prerelease.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/webapp.staging.tfvars -d -out vars/webapp.staging.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 
 install:
 	rm -rf terraform terraform.zip
