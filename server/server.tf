@@ -135,18 +135,6 @@ resource "aws_route53_record" "server" {
   }
 }
 
-resource "aws_route53_record" "webapp" {
-  zone_id = "${data.aws_route53_zone.openchs.zone_id}"
-  name = "${lookup(var.webapp, var.environment, "temp")}.${data.aws_route53_zone.openchs.name}"
-  type = "A"
-
-  alias {
-    evaluate_target_health = true
-    name = "${aws_elb.loadbalancer.dns_name}"
-    zone_id = "${aws_elb.loadbalancer.zone_id}"
-  }
-}
-
 resource "aws_route53_record" "server_instance" {
   zone_id = "${data.aws_route53_zone.openchs.zone_id}"
   name = "ssh.${lookup(var.url_map, var.environment, "temp")}.${data.aws_route53_zone.openchs.name}"
