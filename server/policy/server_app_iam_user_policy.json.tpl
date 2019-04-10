@@ -77,9 +77,27 @@
       "Sid": "VisualEditor1",
       "Effect": "Allow",
       "Action": [
+        "cognito-idp:AdminDeleteUser",
+        "cognito-idp:AdminInitiateAuth",
+        "cognito-idp:AdminDeleteUserAttributes",
+        "cognito-idp:GetUser",
+        "cognito-idp:AdminCreateUser",
+        "cognito-idp:AdminSetUserSettings",
+        "cognito-idp:GetGroup",
+        "cognito-idp:AdminUpdateUserAttributes",
+        "cognito-idp:AdminRespondToAuthChallenge",
+        "cognito-idp:AdminGetUser",
+        "cognito-idp:ListUsersInGroup",
+        "cognito-idp:AdminEnableUser",
         "s3:GetAccountPublicAccessBlock",
+        "cognito-idp:AdminListUserAuthEvents",
+        "cognito-idp:ListGroups",
         "s3:ListAllMyBuckets",
-        "s3:HeadBucket"
+        "cognito-idp:AdminDisableUser",
+        "cognito-idp:AdminListGroupsForUser",
+        "s3:HeadBucket",
+        "cognito-idp:AdminResetUserPassword",
+        "cognito-idp:ListUsers"
       ],
       "Resource": "*"
     }
