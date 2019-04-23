@@ -20,7 +20,7 @@ resource "aws_elb" "loadbalancer" {
     healthy_threshold = 2
     unhealthy_threshold = 2
     timeout = 3
-    target = "HTTP:${var.server_port}/"
+    target = "HTTP:${var.server_port}/ping"
     interval = 30
   }
 
