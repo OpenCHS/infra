@@ -1,5 +1,5 @@
 data "aws_db_snapshot" "latest_snapshot" {
-  db_instance_identifier = "${var.fromDB}db"
+  db_instance_identifier = "proddb01"
   most_recent = true
 }
 
