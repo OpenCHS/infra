@@ -131,6 +131,13 @@ staging-app-plan:
 staging-webapp-plan:
 	$(call plan,webapp.staging,webapp,staging)
 
+prerelease-webapp-create:
+	$(call create,webapp.prerelease,webapp,prerelease)
+
+prerelease-webapp-plan:
+	$(call plan,webapp.prerelease,webapp,prerelease)
+
+
 production-plan:
 	$(call plan,prod,server)
 
