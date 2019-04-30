@@ -8,6 +8,10 @@ data "template_file" "web_app" {
 
 resource "null_resource" "copy_content" {
 
+  triggers {
+    build_version = "${trimspace(file("webapp/version/build_version"))}"
+  }
+  
   provisioner "file" {
     content = "${data.template_file.web_app.rendered}"
     destination = "/tmp/webapp.sh"
