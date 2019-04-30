@@ -7,14 +7,14 @@ profile_name = sys.argv[2] if len(sys.argv) > 2 else 'default'
 
 def json_input(user):
     return {
-        'Username': user["name"],
+        'Username': user["username"] if "username" in user else user["name"],
         'UserPoolId': user_pool_id,
         'ValidationData': [],
         'UserAttributes': [
             {'Name': 'email', 'Value': user["email"]},
-            {'Name': 'email_verified', 'Value': user["emailVerified"]},
+            {'Name': 'email_verified', 'Value': user["emailVerified"] if "emailVerified" in user else "false"},
             {'Name': 'phone_number', 'Value': user["phoneNumber"]},
-            {'Name': 'phone_number_verified', 'Value': user["phoneNumberVerified"]},
+            {'Name': 'phone_number_verified', 'Value': user["phoneNumberVerified"] if "phoneNumberVerified" in user else "false"},
             {'Name': 'custom:userUUID', 'Value': user["uuid"]}
         ],
         'ForceAliasCreation': True,
