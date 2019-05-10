@@ -1,5 +1,5 @@
-openchs_product_repos = openchs-client openchs-server infra rules-config openchs-reporting auth openchs-admin-client
-openchs_implementation_repos = lbp-arogyadoot ashwini calcutta-kids tt-ncd-screening sewa-rural jss unicef-moha kalap
+openchs_product_repos = openchs-client openchs-server infra rules-config openchs-reporting openchs-webapp
+openchs_implementation_repos = openchs-impls/jss-sickle-cell-screening openchs-impls/ashwini openchs-impls/calcutta-kids openchs-impls/tt-ncd-screening openchs-impls/sewa-rural openchs-impls/jss openchs-impls/unicef-moha openchs-impls/kalap
 
 branch=
 command=
