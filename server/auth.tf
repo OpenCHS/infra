@@ -68,6 +68,11 @@ resource "aws_cognito_user_pool" "user_pool" {
     mutable = true
     name = "isOrganisationAdmin"
   }
+  schema {
+    attribute_data_type = "String"
+    mutable = true
+    name = "userUUID"
+  }
 
   tags {
     Name = "${var.environment}-auth-service"
