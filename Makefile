@@ -1,4 +1,7 @@
 .PHONY: install
+
+default: ; @echo 'Usage: make <target>'
+
 UNAME := $(shell uname)
 ifeq ($(UNAME),Linux)
 	TERRAFORM_URL="https://releases.hashicorp.com/terraform/0.11.13/terraform_0.11.13_linux_amd64.zip"
