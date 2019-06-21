@@ -134,6 +134,15 @@ staging-app-plan:
 staging-webapp-plan:
 	$(call plan,webapp.staging,webapp,staging)
 
+uat-webapp-create:
+	$(call create,webapp.uat,webapp,uat)
+
+uat-webapp-destroy:
+	$(call destroy,webapp.uat,webapp,uat)
+
+uat-webapp-plan:
+	$(call plan,webapp.uat,webapp,uat)
+
 prerelease-webapp-create:
 	$(call create,webapp.prerelease,webapp,prerelease)
 
