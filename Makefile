@@ -11,6 +11,12 @@ ifeq ($(UNAME),Darwin)
 endif
 TERRAFORM_LOCATION:=/usr/local/bin/terraform
 
+define createwebapp
+    terraform init -backend=true -backend-config='webapp/backend.config' webapp
+	terraform workspace select webapp.$(1) webapp || (terraform workspace new webapp.$(1) webapp)
+	terraform apply -auto-approve -var 'environment=$(1)' webapp;
+endef
+
 define create
     rm -rf server/*_override.tf
     cp -f ./server-override/$(1)_override.tf ./server || :
@@ -87,7 +93,6 @@ unencrypt:
 	-@openssl aes-256-cbc -a -md md5 -in vars/reporting.tfvars.enc -d -out vars/reporting.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/prerelease.tfvars.enc -d -out vars/prerelease.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/uat.tfvars.enc -d -out vars/uat.tfvars -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in vars/webapp.staging.tfvars.enc -d -out vars/webapp.staging.tfvars -k ${ENCRYPTION_KEY_AWS}
 
 encrypt:
 	-@openssl aes-256-cbc -a -in server/key/openchs-infra.pem -out server/key/openchs-infra.pem.enc -k ${ENCRYPTION_KEY_AWS}
@@ -97,7 +102,6 @@ encrypt:
 	-@openssl aes-256-cbc -a -in vars/reporting.tfvars -out vars/reporting.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/uat.tfvars -out vars/uat.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/prerelease.tfvars -out vars/prerelease.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -in vars/webapp.staging.tfvars -d -out vars/webapp.staging.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 
 install:
 	rm -rf terraform terraform.zip
@@ -107,23 +111,26 @@ install:
 	-sudo mv terraform $(TERRAFORM_LOCATION)
 	make unencrypt
 
+staging-webapp-create:
+	$(call createwebapp,staging)
+
+uat-webapp-create:
+	$(call createwebapp,uat)
+
+prerelease-webapp-create:
+	$(call createwebapp,prerelease)
+
 staging-create:
 	$(call create,staging,server)
 
 staging-app-create:
 	$(call create,app.staging,client)
 
-staging-webapp-create:
-	$(call create,webapp.staging,webapp,staging)
-
 staging-destroy:
 	$(call destroy,staging,server)
 
 prerelease-destroy:
 	$(call destroy,prerelease,server)
-
-staging-webapp-destroy:
-	$(call destroy,webapp.staging,webapp,staging)
 
 staging-plan:
 	$(call plan,staging,server)
@@ -134,17 +141,8 @@ staging-app-plan:
 staging-webapp-plan:
 	$(call plan,webapp.staging,webapp,staging)
 
-uat-webapp-create:
-	$(call create,webapp.uat,webapp,uat)
-
-uat-webapp-destroy:
-	$(call destroy,webapp.uat,webapp,uat)
-
 uat-webapp-plan:
 	$(call plan,webapp.uat,webapp,uat)
-
-prerelease-webapp-create:
-	$(call create,webapp.prerelease,webapp,prerelease)
 
 prerelease-webapp-plan:
 	$(call plan,webapp.prerelease,webapp,prerelease)
