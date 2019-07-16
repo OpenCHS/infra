@@ -14,7 +14,13 @@ TERRAFORM_LOCATION:=/usr/local/bin/terraform
 define createwebapp
     terraform init -backend=true -backend-config='webapp/backend.config' webapp
 	terraform workspace select webapp.$(1) webapp || (terraform workspace new webapp.$(1) webapp)
-	terraform apply -auto-approve -var 'environment=$(1)' webapp;
+	terraform apply -auto-approve -var 'environment=$(1)' webapp
+endef
+
+define planwebapp
+	terraform init -backend=true -backend-config='webapp/backend.config' webapp
+	terraform workspace select webapp.$(1) webapp || (terraform workspace new webapp.$(1) webapp)
+	terraform apply -auto-approve -var 'environment=$(1)' webapp
 endef
 
 define create
@@ -120,6 +126,9 @@ uat-webapp-create:
 prerelease-webapp-create:
 	$(call createwebapp,prerelease)
 
+production-webapp-create:
+	$(call createwebapp,prod)
+
 staging-create:
 	$(call create,staging,server)
 
@@ -139,14 +148,16 @@ staging-app-plan:
 	$(call plan,app.staging,client)
 
 staging-webapp-plan:
-	$(call plan,webapp.staging,webapp,staging)
+	$(call planwebapp,staging)
 
 uat-webapp-plan:
-	$(call plan,webapp.uat,webapp,uat)
+	$(call planwebapp,uat)
 
 prerelease-webapp-plan:
-	$(call plan,webapp.prerelease,webapp,prerelease)
+	$(call planwebapp,prerelease)
 
+production-webapp-plan:
+	$(call planwebapp,prod)
 
 production-plan:
 	$(call plan,prod,server)
