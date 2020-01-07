@@ -25,6 +25,6 @@ resource "aws_iam_instance_profile" "reporting_instance" {
 }
 
 data "aws_acm_certificate" "ssl_certificate" {
-  domain   = "*.openchs.org"
+  domain   = "*.avniproject.org"
   statuses = ["ISSUED"]
 }
