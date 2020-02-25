@@ -78,7 +78,7 @@ resource "aws_cognito_user_pool" "user_pool" {
 resource "null_resource" "client_id" {
 
   triggers {
-    user_pool_id = "${aws_cognito_user_pool.user_pool.id}"
+    always_run = "${timestamp()}"
   }
 
   provisioner "local-exec" {
