@@ -19,7 +19,7 @@ data "template_file" "config" {
   }
 
   depends_on = [
-    "null_resource.client_id",
+    "aws_cognito_user_pool_client.pool_client",
     "aws_cognito_user_pool.user_pool"]
 }
 
