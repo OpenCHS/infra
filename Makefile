@@ -99,6 +99,7 @@ unencrypt:
 	-@openssl aes-256-cbc -a -md md5 -in vars/reporting.tfvars.enc -d -out vars/reporting.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/prerelease.tfvars.enc -d -out vars/prerelease.tfvars -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -md md5 -in vars/uat.tfvars.enc -d -out vars/uat.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -md md5 -in vars/reporting-jasper.tfvars.enc -d -out vars/reporting-jasper.tfvars -k ${ENCRYPTION_KEY_AWS}
 
 encrypt:
 	-@openssl aes-256-cbc -a -in server/key/openchs-infra.pem -out server/key/openchs-infra.pem.enc -k ${ENCRYPTION_KEY_AWS}
@@ -108,6 +109,7 @@ encrypt:
 	-@openssl aes-256-cbc -a -in vars/reporting.tfvars -out vars/reporting.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/uat.tfvars -out vars/uat.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 	-@openssl aes-256-cbc -a -in vars/prerelease.tfvars -out vars/prerelease.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/reporting-jasper.tfvars -out vars/reporting-jasper.tfvars.enc -k ${ENCRYPTION_KEY_AWS}
 
 install:
 	rm -rf terraform terraform.zip
@@ -200,6 +202,15 @@ reporting-plan:
 
 reporting-graph:
 	$(call graph,reporting,reporting)
+
+reporting-jasper-create:
+	$(call create,reporting-jasper,reporting-jasper)
+
+reporting-jasper-plan:
+	$(call plan,reporting-jasper,reporting-jasper)
+
+reporting-jasper-graph:
+	$(call graph,reporting-jasper,reporting-jasper)
 
 staging-create-from-prod: staging-destroy
 	$(call create_staging_from_prod,uat,staging,server)
