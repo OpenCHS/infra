@@ -2,12 +2,7 @@ data "template_file" "reporting_config" {
   template = "${file("reporting-jasper/provision/reporting-jasper.sh.tpl")}"
 
   vars {
-    db_host     = "${aws_db_instance.reporting_jasper.address}"
-    db_port     = "${aws_db_instance.reporting_jasper.port}"
-    db_user     = "${aws_db_instance.reporting_jasper.username}"
-    db_name     = "${aws_db_instance.reporting_jasper.name}"
-    db_password = "${aws_db_instance.reporting_jasper.password}"
-
+    //    db_host     = "${aws_db_instance.reporting_jasper.address}"  //    db_port     = "${aws_db_instance.reporting_jasper.port}"  //    db_user     = "${aws_db_instance.reporting_jasper.username}"  //    db_name     = "${aws_db_instance.reporting_jasper.name}"  //    db_password = "${aws_db_instance.reporting_jasper.password}"
     //    metabase_version = "${var.metabase_version}"
   }
 }
