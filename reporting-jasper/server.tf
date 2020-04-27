@@ -47,7 +47,7 @@ resource "null_resource" "update_instance" {
   connection {
     host        = "${element(aws_instance.reporting_jasper_server.*.public_ip, count.index)}"
     user        = "${var.default_ami_user}"
-    private_key = "${file("reporting-jasper/key/${var.key_name}.pem")}"
+    private_key = "${file("server/key/${var.key_name}.pem")}"
   }
 
   provisioner "file" {
@@ -57,7 +57,7 @@ resource "null_resource" "update_instance" {
     connection {
       host        = "${element(aws_instance.reporting_jasper_server.*.public_ip, count.index)}"
       user        = "${var.default_ami_user}"
-      private_key = "${file("reporting-server/key/${var.key_name}.pem")}"
+      private_key = "${file("server/key/${var.key_name}.pem")}"
     }
   }
 
@@ -70,7 +70,7 @@ resource "null_resource" "update_instance" {
     connection {
       host        = "${element(aws_instance.reporting_jasper_server.*.public_ip, count.index)}"
       user        = "${var.default_ami_user}"
-      private_key = "${file("reporting-jasper/key/${var.key_name}.pem")}"
+      private_key = "${file("server/key/${var.key_name}.pem")}"
     }
   }
 }
