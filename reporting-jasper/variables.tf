@@ -6,13 +6,13 @@ variable "region" {
 
 variable "ami" {
   type        = "string"
-  description = "Amazon Linux hvm:ebs-ssd AMI Mumbai"
-  default     = "ami-531a4c3c"
+  description = "Ubuntu Server 18.04 LTS (HVM), SSD Volume Type"
+  default     = "ami-0b44050b2d893d5f7"
 }
 
 variable "default_ami_user" {
   type    = "string"
-  default = "ec2-user"
+  default = "ubuntu"
 }
 
 variable "instance_type" {
