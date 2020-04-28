@@ -2,8 +2,7 @@ data "template_file" "reporting_config" {
   template = "${file("reporting-jasper/provision/reporting-jasper.sh.tpl")}"
 
   vars {
-    //    db_host     = "${aws_db_instance.reporting_jasper.address}"  //    db_port     = "${aws_db_instance.reporting_jasper.port}"  //    db_user     = "${aws_db_instance.reporting_jasper.username}"  //    db_name     = "${aws_db_instance.reporting_jasper.name}"  //    db_password = "${aws_db_instance.reporting_jasper.password}"
-    //    metabase_version = "${var.metabase_version}"
+    //    db_host     = "${aws_db_instance.reporting_jasper.address}"  //    db_port     = "${aws_db_instance.reporting_jasper.port}"  //    db_user     = "${aws_db_instance.reporting_jasper.username}"  //    db_name     = "${aws_db_instance.reporting_jasper.name}"  //    db_password = "${aws_db_instance.reporting_jasper.password}"  //    metabase_version = "${var.metabase_version}"
   }
 }
 
@@ -75,11 +74,15 @@ resource "aws_route53_record" "reporting_jasper" {
   name    = "reporting-jasper.${data.aws_route53_zone.openchs.name}"
   type    = "A"
 
-  alias {
-    evaluate_target_health = true
-    name                   = "${aws_elb.reportingjasperloadbalancer.dns_name}"
-    zone_id                = "${aws_elb.reportingjasperloadbalancer.zone_id}"
-  }
+  records = [
+    "${aws_instance.reporting_jasper_server.0.public_ip}",
+  ]
+
+  //  alias {
+  //    evaluate_target_health = true
+  //    name                   = "${aws_elb.reportingjasperloadbalancer.dns_name}"
+  //    zone_id                = "${aws_elb.reportingjasperloadbalancer.zone_id}"
+  //  }
 }
 
 resource "aws_route53_record" "reporting_jasper_server_instance" {
