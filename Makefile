@@ -212,6 +212,9 @@ reporting-jasper-plan:
 reporting-jasper-graph:
 	$(call graph,reporting-jasper,reporting-jasper)
 
+reporting-jasper-create:
+	$(call destroy,reporting-jasper,reporting-jasper)
+
 staging-create-from-prod: staging-destroy
 	$(call create_staging_from_prod,uat,staging,server)
 

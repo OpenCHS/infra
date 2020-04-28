@@ -1,18 +1,27 @@
-set -e
-#remove java1.7 if present
-rpm -qa | grep -qw java-1.7.0-openjdk && sudo yum remove -y java-1.7.0-openjdk java-1.7.0-openjdk-devel
+##Install OpenJDK 8
+sudo apt install -y openjdk-8-jdk
+export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
 
-#install java1.8, lsof if absent
-rpm -qa | grep -qw java-1.8.0-openjdk-devel || sudo yum install -y java-1.8.0-openjdk-devel
-rpm -qa | grep -qw lsof || sudo yum install -y lsof
+##Install postgresql 9.6
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ `lsb_release -cs`-pgdg main" >> /etc/apt/sources.list.d/pgdg.list'
+wget -q https://www.postgresql.org/media/keys/ACCC4CF8.asc -O - | sudo apt-key add -
+sudo apt update
+sudo apt install -y postgresql-9.6
 
-#install jasper-server if absent
-[ -f ~/jasper-server.run ] || aws s3 cp s3://<bucket>/TIB_js-jrs-cp_7.5.0_linux_x86_64.run ~/jasper-server.run
-chmod a+x ~/jasper-server.run
-#TODO figure out unattended install for jasper-server community edition
-#https://community.jaspersoft.com/wiki/unattended-mode-installation
-#OR use war file package (TIB_js-jrs-cp_x.y.z_bin.zip) https://community.jaspersoft.com/documentation/jasperreports-server-pro-install-guide/v56/installing-war-file-using-js-install
+##Install tomcat 9
+sudo apt install -y tomcat9
+
+##Other dependencies
+sudo apt install -y unzip
+sudo apt install -y awscli
+
+##install jasper-server
+[ -f ~/jasper-server.zip ] || aws s3 cp s3://openchs/binaries/TIB_js-jrs-cp_7.5.0_bin.zip ~/jasper-server.zip
+unzip jasper-server.zip
+
+aws s3 cp s3://openchs/binaries/jasper-config/default_master.properties ~/jasperreports-server-cp-7.5.0-bin/buildomatic/
+~/jasperreports-server-cp-7.5.0-bin/buildomatic/js-install-ce.sh minimal
+
+#set java.awt.headless=true
 
 #start jasper-server
-#set java.awt.headless=true
-#execute <installed_path>/ctlscript.sh start
