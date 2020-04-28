@@ -24,7 +24,7 @@ resource "aws_instance" "reporting_jasper_server" {
   root_block_device = {
     volume_size           = "${var.disk_size}"
     volume_type           = "gp2"
-    delete_on_termination = true
+    delete_on_termination = false
   }
 
   tags {
@@ -72,6 +72,7 @@ resource "null_resource" "update_instance" {
 resource "aws_route53_record" "reporting_jasper" {
   zone_id = "${data.aws_route53_zone.openchs.zone_id}"
   name    = "reporting-jasper.${data.aws_route53_zone.openchs.name}"
+  ttl     = 300
   type    = "A"
 
   records = [

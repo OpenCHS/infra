@@ -65,7 +65,7 @@ resource "aws_route_table_association" "reporting_jasper_external_secondary" {
 }
 
 resource "aws_security_group" "reporting_jasper_server_sg" {
-  name        = "server-sg"
+  name        = "reporting_jasper_server_sg"
   description = "Allowed Ports"
   vpc_id      = "${aws_vpc.reportingjaspervpc.id}"
 
@@ -85,7 +85,7 @@ resource "aws_security_group" "reporting_jasper_server_sg" {
     protocol  = "tcp"
 
     cidr_blocks = [
-      "${aws_vpc.reportingjaspervpc.cidr_block}",
+      "0.0.0.0/0",
     ]
   }
 
