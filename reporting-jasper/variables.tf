@@ -18,7 +18,7 @@ variable "default_ami_user" {
 variable "instance_type" {
   type        = "string"
   description = "ECS Instance Type"
-  default     = "t2.medium"
+  default     = "t2.small"
 }
 
 variable "disk_size" {
@@ -36,12 +36,12 @@ variable "key_name" {
   default     = "openchs-infra"
 }
 
-//variable "metabase_version" {
-//  description = "Metabase version to install"
-//  default     = "v0.32.4"
-//}
-
 variable "instance_count" {
-  description = "Metabase instance count"
+  description = "Jasper Server instance count"
   default     = 1
+}
+
+variable "jasper_server_version" {
+  description = "Jasper Server Community Edition version"
+  default     = "7.5.0"
 }

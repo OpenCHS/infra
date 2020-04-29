@@ -1,4 +1,4 @@
-data "template_file" "reporting_config" {
+data "template_file" "reporting_jasper_config" {
   template = "${file("reporting-jasper/provision/reporting-jasper.sh.tpl")}"
 
   vars {
@@ -24,7 +24,7 @@ resource "aws_instance" "reporting_jasper_server" {
   root_block_device = {
     volume_size           = "${var.disk_size}"
     volume_type           = "gp2"
-    delete_on_termination = false
+    delete_on_termination = true
   }
 
   tags {
@@ -35,9 +35,10 @@ resource "aws_instance" "reporting_jasper_server" {
 resource "null_resource" "update_instance" {
   count = "${aws_instance.reporting_jasper_server.count}"
 
-  //  triggers {
-  //    metabase_version = "${var.metabase_version}"
-  //  }
+  triggers {
+    jasper_server_version = "${var.jasper_server_version}"
+  }
+
   connection {
     host        = "${element(aws_instance.reporting_jasper_server.*.public_ip, count.index)}"
     user        = "${var.default_ami_user}"
@@ -45,7 +46,7 @@ resource "null_resource" "update_instance" {
   }
 
   provisioner "file" {
-    content     = "${data.template_file.reporting_config.rendered}"
+    content     = "${data.template_file.reporting_jasper_config.rendered}"
     destination = "~/reporting-jasper.sh"
 
     connection {
