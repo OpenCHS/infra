@@ -73,18 +73,13 @@ resource "null_resource" "update_instance" {
 resource "aws_route53_record" "reporting_jasper" {
   zone_id = "${data.aws_route53_zone.openchs.zone_id}"
   name    = "reporting-jasper.${data.aws_route53_zone.openchs.name}"
-  ttl     = 300
   type    = "A"
 
-  records = [
-    "${aws_instance.reporting_jasper_server.0.public_ip}",
-  ]
-
-  //  alias {
-  //    evaluate_target_health = true
-  //    name                   = "${aws_elb.reportingjasperloadbalancer.dns_name}"
-  //    zone_id                = "${aws_elb.reportingjasperloadbalancer.zone_id}"
-  //  }
+  alias {
+    evaluate_target_health = true
+    name                   = "${aws_lb.reportingjasperloadbalancer.dns_name}"
+    zone_id                = "${aws_lb.reportingjasperloadbalancer.zone_id}"
+  }
 }
 
 resource "aws_route53_record" "reporting_jasper_server_instance" {

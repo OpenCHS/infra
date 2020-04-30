@@ -85,7 +85,7 @@ resource "aws_security_group" "reporting_jasper_server_sg" {
     protocol  = "tcp"
 
     cidr_blocks = [
-      "0.0.0.0/0",
+      "${aws_vpc.reportingjaspervpc.cidr_block}",
     ]
   }
 
@@ -126,45 +126,45 @@ resource "aws_security_group" "reporting_jasper_server_sg" {
 //  }
 //}
 
-//resource "aws_security_group" "reporting_jasper_elb_sg" {
-//  name        = "elb-sg"
-//  description = "Allowed Ports on ELB"
-//  vpc_id      = "${aws_vpc.reportingjaspervpc.id}"
-//
-//  ingress {
-//    from_port = 443
-//    to_port   = 443
-//    protocol  = "tcp"
-//
-//    cidr_blocks = [
-//      "0.0.0.0/0",
-//    ]
-//  }
-//
-//  ingress {
-//    from_port = 0
-//    to_port   = 0
-//    protocol  = "-1"
-//
-//    cidr_blocks = [
-//      "${aws_vpc.reportingjaspervpc.cidr_block}",
-//    ]
-//  }
-//
-//  egress {
-//    from_port = 0
-//    to_port   = 0
-//    protocol  = "-1"
-//
-//    cidr_blocks = [
-//      "0.0.0.0/0",
-//    ]
-//  }
-//
-//  depends_on = [
-//    "aws_internet_gateway.reporting_jasper_internet_gateway",
-//  ]
-//}
+resource "aws_security_group" "reporting_jasper_alb_sg" {
+  name        = "alb-sg"
+  description = "Allowed Ports on ALB"
+  vpc_id      = "${aws_vpc.reportingjaspervpc.id}"
+
+  ingress {
+    from_port = 443
+    to_port   = 443
+    protocol  = "tcp"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
+  }
+
+  ingress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "${aws_vpc.reportingjaspervpc.cidr_block}",
+    ]
+  }
+
+  egress {
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
+
+    cidr_blocks = [
+      "0.0.0.0/0",
+    ]
+  }
+
+  depends_on = [
+    "aws_internet_gateway.reporting_jasper_internet_gateway",
+  ]
+}
 
 data "aws_route53_zone" "openchs" {
   name         = "openchs.org"

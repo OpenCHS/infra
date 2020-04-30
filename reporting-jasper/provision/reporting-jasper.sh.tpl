@@ -29,7 +29,7 @@ sudo chmod -R o+rw /var/lib/tomcat9/webapps/
 
 ./js-install-ce.sh minimal
 
-chmod o+r /opt/jasper-config/.*
+sudo chmod o+r /opt/jasper-config/.*
 
 #Restart tomcat
 sudo service tomcat9 restart
