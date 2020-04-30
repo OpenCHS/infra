@@ -71,8 +71,8 @@ resource "null_resource" "update_instance" {
 }
 
 resource "aws_route53_record" "reporting_jasper" {
-  zone_id = "${data.aws_route53_zone.openchs.zone_id}"
-  name    = "reporting-jasper.${data.aws_route53_zone.openchs.name}"
+  zone_id = "${data.aws_route53_zone.avniproject.zone_id}"
+  name    = "reporting-jasper.${data.aws_route53_zone.avniproject.name}"
   type    = "A"
 
   alias {
@@ -83,8 +83,8 @@ resource "aws_route53_record" "reporting_jasper" {
 }
 
 resource "aws_route53_record" "reporting_jasper_server_instance" {
-  zone_id = "${data.aws_route53_zone.openchs.zone_id}"
-  name    = "ssh.reporting-jasper.${data.aws_route53_zone.openchs.name}"
+  zone_id = "${data.aws_route53_zone.avniproject.zone_id}"
+  name    = "ssh.reporting-jasper.${data.aws_route53_zone.avniproject.name}"
   ttl     = 300
   type    = "A"
 

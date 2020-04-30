@@ -166,7 +166,7 @@ resource "aws_security_group" "reporting_jasper_alb_sg" {
   ]
 }
 
-data "aws_route53_zone" "openchs" {
-  name         = "openchs.org"
+data "aws_route53_zone" "avniproject" {
+  name         = "avniproject.org"
   private_zone = false
 }
