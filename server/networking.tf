@@ -195,6 +195,7 @@ resource "aws_security_group" "db_sg" {
     cidr_blocks = [
       "${aws_vpc.vpc.cidr_block}",
       "${data.aws_vpc.accepter.cidr_block}",
+      "${data.aws_vpc.jasper.cidr_block}",
     ]
   }
 
