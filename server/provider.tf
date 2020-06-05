@@ -1,4 +1,12 @@
 provider "aws" {
   region = "${var.region}"
-  version = "1.7"
+  version = "~> 2.0"
+}
+
+provider "null" {
+  version = "~> 2.1"
+}
+
+provider "template" {
+  version = "~> 2.1"
 }
