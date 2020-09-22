@@ -20,6 +20,6 @@ rpm -qa | grep -qw lsof || sudo yum install -y lsof
 #kill if running
 lsof -t -i:3000 && kill -9 $(lsof -t -i:3000)
 sleep 5
-nohup java -jar ~/metabase.jar >> ~/metabase.log 2>&1 &
-
+#nohup java -jar ~/metabase.jar >> ~/metabase.log 2>&1 &
+nohup java -Dlog4j.configuration=file:log4j.properties -jar metabase.jar >> metabase-startup.log 2>&1 &
 sleep 20

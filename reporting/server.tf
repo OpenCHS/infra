@@ -11,6 +11,10 @@ data "template_file" "reporting_config" {
   }
 }
 
+data "template_file" "reporting_log_config" {
+  template = "${file("reporting/provision/log4j.properties.tpl")}"
+}
+
 resource "aws_instance" "reporting_server" {
   count = "${var.instance_count}"
   ami = "${var.ami}"
@@ -48,6 +52,16 @@ resource "null_resource" "update_instance" {
   provisioner "file" {
     content = "${data.template_file.reporting_config.rendered}"
     destination = "~/reporting.sh"
+    connection {
+      host = "${element(aws_instance.reporting_server.*.public_ip, count.index)}"
+      user = "${var.default_ami_user}"
+      private_key = "${file("reporting/key/${var.key_name}.pem")}"
+    }
+  }
+
+  provisioner "file" {
+    content = "${data.template_file.reporting_log_config.rendered}"
+    destination = "~/log4j.properties"
     connection {
       host = "${element(aws_instance.reporting_server.*.public_ip, count.index)}"
       user = "${var.default_ami_user}"
