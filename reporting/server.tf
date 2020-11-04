@@ -12,7 +12,7 @@ data "template_file" "reporting_config" {
 }
 
 data "template_file" "reporting_log_config" {
-  template = "${file("reporting/provision/log4j.properties.tpl")}"
+  template = "${file("reporting/provision/log4j2.xml.tpl")}"
 }
 
 resource "aws_instance" "reporting_server" {
@@ -61,7 +61,7 @@ resource "null_resource" "update_instance" {
 
   provisioner "file" {
     content = "${data.template_file.reporting_log_config.rendered}"
-    destination = "~/log4j.properties"
+    destination = "~/log4j2.xml"
     connection {
       host = "${element(aws_instance.reporting_server.*.public_ip, count.index)}"
       user = "${var.default_ami_user}"
