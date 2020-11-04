@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Configuration>
+  <Properties>
+    <Property name="logfile.path">/home/ec2-user</Property>
+  </Properties>
   <Appenders>
     <Console name="STDOUT" target="SYSTEM_OUT">
       <PatternLayout pattern="%d %p %c{2} :: %m%n">
