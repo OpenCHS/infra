@@ -20,7 +20,7 @@ endef
 define planwebapp
 	terraform init -backend=true -backend-config='webapp/backend.config' webapp
 	terraform workspace select webapp.$(1) webapp || (terraform workspace new webapp.$(1) webapp)
-	terraform apply -auto-approve -var 'environment=$(1)' webapp
+	terraform plan -var 'environment=$(1)' webapp
 endef
 
 define create
