@@ -92,14 +92,14 @@ auth:
 	$(if $(poolId),$(eval token:=$(shell node user-management/token.js $(poolId) $(clientId) $(username) $(password))))
 
 unencrypt:
-	-@openssl aes-256-cbc -a -md md5 -in server/key/openchs-infra.pem.enc -d -out server/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in webapp/key/openchs-infra.pem.enc -d -out webapp/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in vars/prod.tfvars.enc -d -out vars/prod.tfvars -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in vars/staging.tfvars.enc -d -out vars/staging.tfvars -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in vars/reporting.tfvars.enc -d -out vars/reporting.tfvars -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in vars/prerelease.tfvars.enc -d -out vars/prerelease.tfvars -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in vars/uat.tfvars.enc -d -out vars/uat.tfvars -k ${ENCRYPTION_KEY_AWS}
-	-@openssl aes-256-cbc -a -md md5 -in vars/reporting-jasper.tfvars.enc -d -out vars/reporting-jasper.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in server/key/openchs-infra.pem.enc -d -out server/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in webapp/key/openchs-infra.pem.enc -d -out webapp/key/openchs-infra.pem -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/prod.tfvars.enc -d -out vars/prod.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/staging.tfvars.enc -d -out vars/staging.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/reporting.tfvars.enc -d -out vars/reporting.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/prerelease.tfvars.enc -d -out vars/prerelease.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/uat.tfvars.enc -d -out vars/uat.tfvars -k ${ENCRYPTION_KEY_AWS}
+	-@openssl aes-256-cbc -a -in vars/reporting-jasper.tfvars.enc -d -out vars/reporting-jasper.tfvars -k ${ENCRYPTION_KEY_AWS}
 
 encrypt:
 	-@openssl aes-256-cbc -a -in server/key/openchs-infra.pem -out server/key/openchs-infra.pem.enc -k ${ENCRYPTION_KEY_AWS}
