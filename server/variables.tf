@@ -117,3 +117,9 @@ variable "bugsnag_api_key" {
   description = "From Database"
   default = ""
 }
+
+variable "msg91_authkey_key" {
+  type        = "string"
+  description = "Msg91 Authkey Encryption key"
+  default = ""
+}
