@@ -51,17 +51,6 @@ resource "aws_instance" "server" {
     delete_on_termination = true
   }
 
-  provisioner "remote-exec" {
-    inline = [
-      "curl -L https://bintray.com/openchs/rpm/rpm > /tmp/bintray-openchs-rpm.repo",
-      "sudo mv /tmp/bintray-openchs-rpm.repo /etc/yum.repos.d/bintray-openchs-rpm.repo"
-    ]
-    connection {
-      user = "${var.default_ami_user}"
-      private_key = "${file("server/key/${var.key_name}.pem")}"
-    }
-  }
-
   provisioner "file" {
     content = "${data.template_file.config.rendered}"
     destination = "/tmp/openchs.conf"

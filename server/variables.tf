@@ -28,7 +28,7 @@ variable "db_final_snapshot" {
   default = {
     demo = false
     uat = true
-    prerelease = true
+    prerelease = false
   }
 }
 

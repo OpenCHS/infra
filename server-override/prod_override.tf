@@ -18,7 +18,7 @@ resource "aws_db_instance" "openchs" {
   storage_type = "gp2"
   db_subnet_group_name = "${aws_db_subnet_group.db_subnet.name}"
   engine = "postgres"
-  engine_version = "9.6"
+  engine_version = "12.5"
   instance_class = "db.t2.small"
   name = "openchs"
   username = "openchs"
