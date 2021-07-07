@@ -6,4 +6,8 @@ resource "aws_s3_bucket" "server_bucket" {
     Name        = "User media"
     Environment = "${var.environment}"
   }
+
+  versioning {
+    enabled = true
+  }
 }
